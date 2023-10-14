@@ -7,36 +7,16 @@ import (
 	"io/ioutil"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"more.tech/structs"
 	"more.tech/util"
 )
 
 func RootTest(w http.ResponseWriter, r *http.Request) {
-	// result := getOfficeByTitleInArea("втб", 55.649865, 37.622646)
-	// fmt.Fprintf(w, "%v\n", result)
 }
 
 func readFile(path string) []byte {
-	// file, err := os.Open(path)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// }
-	// defer file.Close()
-
-	// var lines []string
-	// scanner := bufio.NewScanner(file)
-	// for scanner.Scan() {
-	// 	lines = append(lines, scanner.Text())
-	// }
-
-	// var text string
-	// for _, line := range lines {
-	// 	text += line
-	// }
-
-	// return text
-
 	v, err := ioutil.ReadFile(path) //read the content of file
 	if err != nil {
 		fmt.Println(err)
@@ -198,4 +178,47 @@ func GetAtms(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(err)
 	}
 	fmt.Fprintf(w, string(jsonResp))
+}
+
+type ChatGPTAnswer struct {
+	responce string
+}
+
+func VoiceHandler(w http.ResponseWriter, r *http.Request) {
+	// read binary data from request
+
+	// put data in v2t and get text
+
+	// put get in ChatGPT
+	resp, err := http.Post("http://localhost:8000/chat", "application/json", strings.NewReader("{\"request\": \"Hello\"}"))
+	if err != nil {
+		fmt.Println(err)
+	}
+	defer resp.Body.Close()
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	var answer ChatGPTAnswer
+	err = json.Unmarshal(body, &answer)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	defer r.Body.Close()
+	b, err := io.ReadAll(r.Body)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	var requestObject structs.GetObjectsBody
+	err = json.Unmarshal(b, &requestObject)
+	serviceList := strings.Split(answer.responce, ",")
+
+	requestObject.Filter = serviceList
+
+	// maybe it doesn't working
+	GetOfficeInfo(w, r)
 }
