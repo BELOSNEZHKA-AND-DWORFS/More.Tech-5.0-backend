@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 
+	"more.tech/structs"
 	"more.tech/util"
 )
 
@@ -42,7 +43,7 @@ func prepareData(jsonResponse string) map[string]interface{} {
 	return flatMap
 }
 
-func putOfficeDataInStructure(jsonResponse string) []officeYandexData {
+func putOfficeDataInStructure(jsonResponse string) []structs.OfficeYandexData {
 	flatMap := prepareData(jsonResponse)
 
 	titles := util.GetFeatures(flatMap, "CompanyMetaData.name")
@@ -52,25 +53,25 @@ func putOfficeDataInStructure(jsonResponse string) []officeYandexData {
 
 	size := min(len(titles), len(addresses), len(dateTimes), len(phones))
 
-	var resultData []officeYandexData
+	var resultData []structs.OfficeYandexData
 	for i := 0; i < size; i++ {
-		var yandexData officeYandexData
-		yandexData.title = titles[i]
-		yandexData.datetime = dateTimes[i]
-		yandexData.phone = phones[i]
+		var yandexData structs.OfficeYandexData
+		yandexData.Title = titles[i]
+		yandexData.Datetime = dateTimes[i]
+		yandexData.Phone = phones[i]
 
 		resultData = append(resultData, yandexData)
 	}
 	return resultData
 }
 
-func getOfficeByTitleInArea(title string, latitude float32, longitude float32) []officeYandexData {
+func getOfficeByTitleInArea(title string, latitude float32, longitude float32) []structs.OfficeYandexData {
 	requestText := makeRequest(title, latitude, longitude)
 	data := putOfficeDataInStructure(requestText)
 	return data
 }
 
-func putAtmDataInStructure(jsonResponse string) []atmYandexData {
+func putAtmDataInStructure(jsonResponse string) []structs.AtmYandexData {
 	flatMap := prepareData(jsonResponse)
 
 	titles := util.GetFeatures(flatMap, "CompanyMetaData.name")
@@ -80,19 +81,19 @@ func putAtmDataInStructure(jsonResponse string) []atmYandexData {
 
 	size := min(len(titles), len(addresses), len(dateTimes), len(phones))
 
-	var resultData []atmYandexData
+	var resultData []structs.AtmYandexData
 	for i := 0; i < size; i++ {
-		var yandexData atmYandexData
-		yandexData.title = titles[i]
-		yandexData.datetime = dateTimes[i]
-		yandexData.phone = phones[i]
+		var yandexData structs.AtmYandexData
+		yandexData.Title = titles[i]
+		yandexData.Datetime = dateTimes[i]
+		yandexData.Phone = phones[i]
 
 		resultData = append(resultData, yandexData)
 	}
 	return resultData
 }
 
-func getAtmByTitleInArea(title string, latitude float32, longitude float32) []atmYandexData {
+func getAtmByTitleInArea(title string, latitude float32, longitude float32) []structs.AtmYandexData {
 	requestText := makeRequest(title, latitude, longitude)
 	data := putAtmDataInStructure(requestText)
 	return data

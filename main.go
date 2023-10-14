@@ -5,17 +5,16 @@ import (
 	"net/http"
 	"time"
 
-	"more.tech/handlers"
-
 	"github.com/gorilla/mux"
+	"more.tech/handlers"
 )
 
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/", handlers.RootTest).Methods("GET")
-	router.HandleFunc("/office/{officeID}", handlers.GetOfficeInfo).Methods("GET") // TODO: what officeID?
+	router.Path("/office").Queries("officeid", "{officeid}").HandlerFunc(handlers.GetOfficeInfo).Methods("GET")
 	router.HandleFunc("/get_offices", handlers.GetOffices).Methods("POST")
-	router.HandleFunc("/atm/{atmID}", handlers.GetAtmInfo).Methods("GET") // TODO: what atmID?
+	router.Path("/atm").Queries("atmid", "{atmid}").HandlerFunc(handlers.GetAtmInfo).Methods("GET")
 	router.HandleFunc("/get_atms", handlers.GetAtms).Methods("POST")
 	server := http.Server{
 		Addr:         ":8080",
