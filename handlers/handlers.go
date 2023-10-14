@@ -6,7 +6,8 @@ import (
 )
 
 func RootTest(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "First backend test\n")
+	result := getOfficeByTitleInArea("втб", 55.649865, 37.622646)
+	fmt.Fprintf(w, "%v\n", result)
 }
 
 func GetOfficeInfo(w http.ResponseWriter, r *http.Request) {
