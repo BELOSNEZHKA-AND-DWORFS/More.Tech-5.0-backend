@@ -1,0 +1,56 @@
+У них есть такие фильтры:
+
+для банкоматов:
+* Банкоматы ВТБ - isVtb
+* Снять деньги - supportsRub
+* Снять деньги в рублях - supportsRub
+* Снять деньги в долларах - supportsUsd
+* Снять деньги в евро - supportsEur
+* Внести деньги - supportsRub
+* Внести деньги в рублях - supportsRub
+* Внести деньги в долларах - supportsUsd
+* Внести деньги в евро - supportsEur
+* Работает сейчас - serviceActivity
+* Круглосуточно - allDay
+* Поддержка лиц с ограниченными возможностями передвижения - weelchair
+* Поддержка лиц слабовидящих - blind
+* Поддержка лиц с ограниченными возможностями - weelchair
+* Поддержка NFC - nfcForBankCards
+* Поддержка QR-code - qrRead
+* Оплата услуг - supportsChargeRub
+
+для отделений: 
+* Есть Рассчетно-кассовое обслуживание (РКО) - isOrganization
+* Обслуживание юридических лиц - isOrganization
+* Сбор биометрии - isBiometric
+* Брокерское обслуживание - isInvestment
+* Оформление кредита - isUniversal
+* Открытие счета - isUniversal
+* Оформление карты - isUniversal
+* Оформление ипотеки - isUniversal
+* Касса и прием платежей - isCashOffice
+* Перевод денег - isCashOffice
+* Открыто сейчас - isAvailableNow
+* Открыто на выходных - isAvailableWeekends
+* Открыто сегодня - isAvailableToday
+* Пустой, не загруженный офис - isFreeOffice
+* Есть ли пандус - isRamp
+* Обмен валюты - isCurrency
+* ВТБ прайм - isVtbPrime
+* ВТБ привилегия - isVtbPrivilege
+* Оплата услуг - supportsChargeRub
+
+
+По входной заявке от пользователя необходимо сформировать список фильтров.
+Например:
+- "Внести деньги в рублях"
+- supportsChargeRub, serviceCapability
+
+- "Внести деньги в рублях сейчас"
+- supportsChargeRub, serviceCapability, serviceActivity
+
+
+Теперь на запрос похожий на примерах, ты должен выдавать только список фильтров.
+Возвращай только фильтры, без лишнего пояснения!
+
+Запрос:
